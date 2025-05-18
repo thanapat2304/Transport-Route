@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/favicon.png') }}">
+    <title>Transport Route</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" /> <!-- ICON GOOGLE -->
+    <link href="https://fonts.googleapis.com/css2?family=Anuphan:wght@100..700&display=swap" rel="stylesheet"> <!-- ตัวหนังสือ -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/oil.css') }}">
+    <script src="{{ url_for('static', filename='js/sideber.js') }}"></script>
+</head>
+<body>
+    <aside class="sidebar">
+        <button class="sidebar-toggle">
+            <span class="material-symbols-outlined"> menu </span>
+        </button>
+        <br>
+        <div class="sidebar-header">
+            <img src="{{ url_for('static', filename='img/favicon.png') }}" alt="logo">
+            <h2>Transport Route</h2>
+        </div>
+        <ul class="sidebar-links">
+            <h4>
+                <span>Main Menu</span>
+                <div class="menu-separator"></div>
+            </h4>
+            <li>
+                <a href='/dashboard'>
+                <span class="material-symbols-outlined"> dashboard </span>Dashboard</a>
+            </li>
+            <h4>
+                <span>Transport Route Menu</span>
+                <div class="menu-separator"></div>
+            </h4>
+            <li>
+                <a href='/ship'><span class="material-symbols-outlined">table</span>รายการขนส่ง</a>
+            </li>
+            <li>
+                <a href='/add'><span class="material-symbols-outlined">note_add</span>เพิ่มรายการขนส่ง</a>
+            </li>
+            <li>
+                <a href='/oil'><span class="material-symbols-outlined">local_gas_station</span>ราคาน้ำมัน</a>
+            </li>
+            <h4>
+                <span>Report Transport</span>
+                <div class="menu-separator"></div>
+            </h4>
+            <li>
+                <a href='/report'>
+                <span class="material-symbols-outlined">plagiarism</span>รายงานบิลขาย</a>
+            </li>
+            <li>
+                <a href='/branch_report'>
+                <span class="material-symbols-outlined">group_search</span>จัดส่งสินค้าประจำวัน</a>
+            </li>
+            <li>
+                <a href='/month_report'>
+                <span class="material-symbols-outlined">group_search</span>จัดส่งสินค้าประจำเดือน</a>
+            </li>
+            <h4>
+                <span>System Menu</span>
+                <div class="menu-separator"></div>
+            </h4>
+            <li class="restricted-menu">
+                <a href='/car'><span class="material-symbols-outlined">local_shipping</span>เพิ่มทะเบียนรถ</a>
+            </li>
+            <li class="restricted-menu">
+                <a href='/branch'><span class="material-symbols-outlined">warehouse</span>เพิ่มสาขา</a>
+            </li>
+            <li class="restricted-menu">
+                <a href='/route'><span class="material-symbols-outlined">map</span>เพิ่มเส้นทางขนส่ง</a>
+            </li>
+            <li>
+                <a href='/logout'><span class="material-symbols-outlined">logout</span>ออกจากระบบ</a>
+            </li>
+        </ul>
+        <div class="user-account">
+            <div class="user-profile">
+            <img src="{{ url_for('static', filename='img/favicon.png') }}" alt="Profile Image">
+              <div class="user-detail">
+                <h3>{{ user_display  }}</h3>
+                <span>{{ ip_address }}</span>
+              </div>
+            </div>
+        </div>
+    </aside>
+
+    <div class="container2">
+        <h1 style="text-align: center;">ราคาน้ำมัน</h1>
+        <div class="iframe-container">
+            <iframe width="320" height="420" src="https://www.pttor.com/oil_price_board?lang=th" frameborder="0"></iframe>
+            <iframe width="320" height="875" src="https://oil-price.bangchak.co.th/BcpOilPrice1/th" frameborder="0"></iframe>
+        </div>
+    </div>
+
+    <script>
+        window.onload = function() {
+            var userId = "{{ user_id }}";
+
+            if (userId !== '0' && userId !== '999') {
+                var menuItems = document.querySelectorAll('.restricted-menu');
+                menuItems.forEach(function(item) {
+                    item.style.display = 'none';
+                });
+            }
+        };
+    </script>
+</body>
+</html>

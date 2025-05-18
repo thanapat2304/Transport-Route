@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/favicon.png') }}">
+    <title>Transport Route</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" /> <!-- ICON GOOGLE -->
+    <link href="https://fonts.googleapis.com/css2?family=Anuphan:wght@100..700&display=swap" rel="stylesheet"> <!-- ตัวหนังสือ -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/detail.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.0/dist/sweetalert2.all.min.js"></script> <!-- JS DETELE -->
+    <script src="{{ url_for('static', filename='js/Detele.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='js/detail.js') }}" defer></script>
+</head>
+
+<body>
+
+    <div class="container">
+        <h3 class="header-title">รายละเอียดรอบการขนส่ง</h3>
+        <h3 class="header-subtitle">บริษัท อเมริกัน-ยูโรเปี้ยน โปรดัก จำกัด</h3>
+        <div class="asset-details">
+            <p><strong>วันที่เอกสาร :</strong> {{result['SHT_Doc_Date']}}</p>
+        </div>
+        <table>
+            <tr>
+                <th style="text-align: center; width: 60px;">วันที่</th>
+                <td>{{ result['SHT_Date'] if result['SHT_Date'] else '-' }}</td>
+                <th style="text-align: center; width: 60px;">ทะเบียน</th>
+                <td>{{ result['SHT_Register'] if result['SHT_Register'] else '-' }}</td>
+            </tr>
+            <tr>
+                <th style="text-align: center; width: 60px;">สาขา</th>
+                <td>{{ result['SHT_Branch_Name'] if result['SHT_Branch_Name'] else '-' }}</td>
+                <th style="text-align: center; width: 60px;">รอบเส้นทาง</th>
+                <td>{{ result['SHT_Route_Name'] if result['SHT_Route_Name'] else '-' }}</td>         
+            </tr>
+            <tr>
+                <th style="text-align: center; width: 60px;">จำนวนบิล</th>
+                <td><b>{{ result['SHT_Bill'] if result['SHT_Bill'] else '-' }}</b></td>
+                <th style="text-align: center; width: 60px;">ยอดขาย</th>
+                <td><b>{{ '{:,.2f}'.format(result['SHT_Value']) if result['SHT_Value'] else '-' }}</b></td>
+            </tr>
+            <tr>
+                <th style="text-align: center; width: 60px;">เลขไมค์ก่อน</th>
+                <td>{{ '{:,}'.format(result['SHT_Num_First']) if result['SHT_Num_First'] else '-' }}</td>
+                <th style="text-align: center; width: 60px;">เลขไมค์หลัง</th>
+                <td>{{ '{:,}'.format(result['SHT_Num_Late']) if result['SHT_Num_Late'] else '-' }}</td>
+            </tr>            
+            <tr>
+                <th style="text-align: center; width: 60px;">จังหวัด</th>
+                <td>{{ result['SHT_Provice'] if result['SHT_Provice'] else '-' }}</td>
+                <th style="text-align: center; width: 60px;">หมายเหตุ</th>
+                <td>{{ result['SHT_Note'] if result['SHT_Note'] else '-' }}</td>
+            </tr>
+            <tr>
+                <th style="text-align: center; width: 60px;">ผู้บันทึก</th>
+                <td>{{ result['SHT_Save_Name'] if result['SHT_Save_Name'] else '-' }}</td>
+                <th style="text-align: center; width: 60px;">เวลาบันทึก</th>
+                <td>{{ result['SHT_Save_Time'] if result['SHT_Save_Time'] else '-' }}</td>
+            </tr>
+        </table>
+        <br>
+        <br>
+        <div class="button-group">
+            <form action="/delete_ship/{{ result['id'] }}" method="POST" style="display:inline;" class="delete-form">
+                <button type="button" onclick="confirmDelete(this)" class="btn delete-btn">
+                    <span class="material-symbols-outlined">delete</span> ลบข้อมูล
+                </button>
+            </form>
+            <form action="{{ url_for('edit', id=result['id']) }}" method="get">
+                <button type="submit" class="btn edit-btn"><span class="material-symbols-outlined">build</span> แก้ไขข้อมูล</button>
+            </form>
+            <button href="javascript:void(0);" onclick="goBack()" class="btn back-btn">
+                <i class="fa-solid fa-xmark"></i><span class="material-symbols-outlined">arrow_back</span> ย้อนกลับ 
+            </button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="content">
+            <h3 class="header-title">อัตราสิ้นเปลืองเชื้อเพลิง (เฉลี่ย)</h3>
+    
+            <div class="asset-details">
+                <p><strong>วันที่ :</strong> {{result['SHT_Date']}}</p>
+                <p><strong>ทะเบียน :</strong> {{result['SHT_Register']}}</p>
+                <p><strong>เส้นทางขนส่ง :</strong> {{result['SHT_Route_Name']}}</p>
+            </div>
+            <table class="table table-bordered">
+                <tr>
+                    <th style="text-align: center; width: 60px;">เลขไมค์ก่อน</th>
+                    <td>{{ '{:,}'.format(result['SHT_Num_First']) if result['SHT_Num_First'] else '-' }}</td>
+                    <th style="text-align: center; width: 60px;">เลขไมค์หลัง</th>
+                    <td>{{ '{:,}'.format(result['SHT_Num_Late']) if result['SHT_Num_Late'] else '-' }}</td>
+                </tr>
+                <tr>
+                    <th style="text-align: center; width: 60px;">ระยะทางวิ่ง</th>
+                    <td>{{ result['SHT_Distance'] if result['SHT_Distance'] else '-' }}</td>
+                    <th style="text-align: center; width: 60px;">กิโลต่อลิตร</th>
+                    <td>{{ '{:.2f}'.format(10) }}</td>
+                </tr>
+                <tr>
+                    <th style="text-align: center; width: 60px;">ใช้น้ำมัน (ลิตร)</th>
+                    <td><b>{{ '{:,.2f}'.format(result['SHT_Use_Oil']) if result['SHT_Use_Oil'] else '-' }}</b></td>
+                    <th style="text-align: center; width: 60px;">ราคาน้ำมัน</th>
+                    <td><b>{{ '{:.2f}'.format(result['SHT_Oil']) if result['SHT_Oil'] else '-' }}</b></td>
+                </tr>
+            </table>
+            <br>
+            <table>
+                <tr>
+                    <td style="text-align: center;">
+                        <strong>รวมมูลค่าน้ำมัน : {{ '{:,.2f}'.format(result['SHT_Oil_Price']) }} บาท</strong>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="footer-line">
+            <p>Sopon-Product Co.,Ltd.</p>
+            <p>Develop by Thanapurt Sopon | Last Update 2025</p>
+    </div>
+</body>
+</html>

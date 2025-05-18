@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/favicon.png') }}">
+    <title>Transport Route</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" /> <!-- ICON GOOGLE -->
+    <link href="https://fonts.googleapis.com/css2?family=Anuphan:wght@100..700&display=swap" rel="stylesheet"> <!-- ตัวหนังสือ -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/edit.css') }}">
+    <script src="{{ url_for('static', filename='js/edit.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='js/keyboard.js') }}" defer></script>
+</head>
+<body>
+    <div class="container">
+        <form method="POST" action="{{ url_for('edit', id=result['id']) }}" enctype="multipart/form-data" autocomplete="off" novalidate>
+            <h3 class="header-title">แก้ไขรายละเอียด</h3>
+            <h3 class="header-subtitle">บริษัท อเมริกัน-ยูโรเปี้ยน โปรดัก จำกัด</h3>
+            <div class="asset-details">
+                <p><strong>วันที่เอกสาร :</strong> {{result['SHT_Doc_Date']}}</p>
+            </div>
+            <table>
+                <tr>
+                    <th>วันที่</th>
+                    <td><input type="text" value="{{ result['SHT_Date'] }}" required readonly class="readonly-input"></td>  
+                    <th>ทะเบียน</th>
+                    <td><input type="text" value="{{ result['SHT_Register'] }}" required readonly class="readonly-input"></td>
+                </tr>
+                <tr>
+                    <th>สาขา</th>
+                    <td><input type="text" value="{{ result['SHT_Branch_Name'] }}" required readonly class="readonly-input"></td>                    
+                    <th>รอบเส้นทาง</th>
+                    <td><input type="text" value="{{ result['SHT_Route_Name'] }}" required readonly class="readonly-input"></td>                                      
+                </tr>
+                <tr>
+                    <th>จำนวนบิล</th>
+                    <td><input type="text" name="SHT_Bill" value="{{ result['SHT_Bill'] }}" required class="inputtext" oninput="validateNumber(event)"></td>
+                    <th>ยอดขาย</th>
+                    <td>
+                        <input type="text" name="SHT_Value" id="SHT_Value" value="{{ result['SHT_Value'] }}" class="inputtext" oninput="formatNumber(this)" onblur="removeCommasBeforeSubmit(this)">
+                    </td>  
+                </tr>
+                <tr>
+                    <th>เลขไมค์ก่อน</th>
+                    <td><input type="text" name="SHT_Num_First" id="SHT_Num_First" value="{{ result['SHT_Num_First'] }}" class="inputtext" oninput="formatNumber(this)" onblur="removeCommasBeforeSubmit(this)"></td> 
+                    <th>เลขไมค์หลัง</th>
+                    <td><input type="text" name="SHT_Num_Late" id="SHT_Num_Late" value="{{ result['SHT_Num_Late'] }}" class="inputtext" oninput="formatNumber(this)" onblur="removeCommasBeforeSubmit(this)"></td> 
+                </tr>
+                <tr>
+                    <th>จังหวัด</th>
+                    <td><input type="text" value="{{ result['SHT_Provice'] }}" required readonly class="readonly-input"></td>
+                    <th>หมายเหตุ</th>
+                    <td><input type="text" name="SHT_Note" value="{{ result['SHT_Note'] }}" class="inputtext"></td>
+                </tr>
+                <tr>
+                    <th>ชื่อผู้บันทึก</th>
+                    <td><input type="text" name="AS_Save_Name" value="{{ result['SHT_Save_Name'] }}" class="readonly-input"></td>
+                    <th>เวลาบันทึก</th>
+                    <td><input type="text" name="AS_Save_Name" value="{{ result['SHT_Save_Time'] }}" class="readonly-input"></td>
+                </tr>
+            </table>
+
+            <br>
+            <div class="button-group">
+                <button type="submit" class="btn save-btn"><span class="material-symbols-outlined">save</span> บันทึกการแก้ไข</button>
+                <button type="button" onclick="window.history.back();" class="btn cancel-btn"><span class="material-symbols-outlined">cancel</span> ยกเลิกการแก้ไข</button>
+            </div>
+        </form>
+        
+        
+    </div>
+
+    <div class="footer-line">
+            <p>Sopon-Product Co.,Ltd.</p>
+            <p>Develop by Thanapurt Sopon | Last Update 2025</p>
+    </div>
+
+</body>
+</html>
