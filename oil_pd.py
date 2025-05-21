@@ -10,19 +10,7 @@ import mysql.connector
 from mysql.connector import Error
 
 def connect_aep_portal():
-    try:
-        connection = mysql.connector.connect(
-            host='192.168.10.4',
-            user='root',
-            password='americ1234',
-            database='aep_portal',
-            charset='utf8'
-        )
-        if connection.is_connected():
-            return connection
-    except Error as e:
-        print(f"Error connecting to aep_portal: {e}")
-        return None
+    return None
 
 def get_yesterday_oil_price():
     try:
