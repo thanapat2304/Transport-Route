@@ -16,7 +16,7 @@ def get_yesterday_oil_price():
     try:
         conn = connect_aep_portal()
         cursor = conn.cursor()
-        query = "SELECT price_oil FROM sht_tb_oil WHERE DATE(date_oil) = CURDATE() - INTERVAL 1 DAY"
+        query = "SELECT price_oil FROM demo_tb WHERE DATE(date_oil) = CURDATE() - INTERVAL 1 DAY"
         cursor.execute(query)
         result = cursor.fetchone()
         cursor.close()
@@ -75,12 +75,12 @@ else:
     conn = connect_aep_portal()
     cursor = conn.cursor()
 
-    query_check = "SELECT COUNT(*) FROM sht_tb_oil WHERE DATE(date_oil) = CURDATE()"
+    query_check = "SELECT COUNT(*) FROM demo_tb WHERE DATE(date_oil) = CURDATE()"
     cursor.execute(query_check)
     result = cursor.fetchone()
 
     if result[0] == 0:
-        query = "INSERT INTO sht_tb_oil (price_oil, date_oil) VALUES (%s, %s)"
+        query = "INSERT INTO demo_tb (price_oil, date_oil) VALUES (%s, %s)"
         cursor.execute(query, (price_oil, date_oil))
         conn.commit()
 

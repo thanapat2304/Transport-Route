@@ -6,7 +6,7 @@ def get_fda_branch():
     conn = connect_aep_portal()
     cursor = conn.cursor()
 
-    cursor.execute("""SELECT * FROM sht_tb_branch""")
+    cursor.execute("""SELECT * FROM demo_tb""")
     results = cursor.fetchall()
 
     if cursor.description is None:
@@ -45,17 +45,17 @@ def add_branch():
         cursor = conn.cursor()
 
         try:
-            cursor.execute("SELECT MAX(id) FROM sht_tb_branch")
+            cursor.execute("SELECT MAX(id) FROM demo_tb")
             last_id = cursor.fetchone()[0]
 
-            cursor.execute("SELECT MAX(SHT_ID_Branch) FROM sht_tb_branch")
+            cursor.execute("SELECT MAX(SHT_ID_Branch) FROM demo_tb")
             last_char = cursor.fetchone()[0]
 
             next_id = get_next_id(last_id)
             next_char = get_next_char(last_char) if last_char else 'A'
 
             cursor.execute("""
-                INSERT INTO sht_tb_branch (id, SHT_Name_Branch, SHT_ID_Branch)
+                INSERT INTO demo_tb (id, demo_tb, SHT_ID_Branch)
                 VALUES (%s, %s, %s)
             """, (next_id, name_branch, next_char))
             
@@ -77,7 +77,7 @@ def delete_branch(id):
     if conn:
         cursor = conn.cursor()
         try:
-            cursor.execute("DELETE FROM sht_tb_branch WHERE id = %s", (id,))
+            cursor.execute("DELETE FROM demo_tb WHERE id = %s", (id,))
             conn.commit()
         except Exception as e:
             print(f"Error: {e}")

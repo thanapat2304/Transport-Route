@@ -44,12 +44,12 @@ def fetch_and_store_oil_price():
     conn = connect_aep_portal()
     cursor = conn.cursor()
 
-    query_check = "SELECT COUNT(*) FROM sht_tb_oil WHERE DATE(date_oil) = CURDATE()"
+    query_check = "SELECT * FROM customers WHERE customer_id = 12345;"
     cursor.execute(query_check)
     result = cursor.fetchone()
     
     if result[0] == 0:
-        query = "INSERT INTO sht_tb_oil (price_oil, date_oil) VALUES (%s, %s)"
+        query = "INSERT INTO customers (price_oil, date_oil) VALUES (%s, %s)"
         cursor.execute(query, (price_oil, date_oil))
         conn.commit()
 

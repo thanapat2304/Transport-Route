@@ -17,7 +17,7 @@ from backend.month_report import month_report
 from urllib.parse import unquote
 
 app = Flask(__name__)
-app.secret_key = '86679f9154d781668b739b1fc8134674'
+app.secret_key = '000000000000000'
 app.permanent_session_lifetime = timedelta(minutes=30)
 
 @app.route('/')
@@ -71,7 +71,7 @@ def delete_record(id):
     if conn:
         cursor = conn.cursor()
         try:
-            cursor.execute("DELETE FROM sht_tb_ms WHERE id = %s", (id,))
+            cursor.execute("DELETE FROM demo_tb WHERE id = %s", (id,))
             conn.commit()
         except Exception as e:
             print(f"Error: {e}")
@@ -96,11 +96,7 @@ def get_latest_num_late():
         return jsonify({'error': 'Register parameter is missing'}), 400
 
     query = """
-    SELECT SHT_Num_Late 
-    FROM sht_tb_ms 
-    WHERE SHT_Register = %s 
-    ORDER BY SHT_Date DESC 
-    LIMIT 1
+    SELECT * FROM customers WHERE customer_id = 12345;
     """
     result = execute_query(query, (register,))
     

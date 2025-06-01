@@ -9,16 +9,11 @@ def get_fda_registration():
 
     if user_id == 0 or user_id == 999:
         cursor.execute("""
-            SELECT r.id, r.SHT_Registration, b.SHT_Name_Branch 
-            FROM sht_tb_registration r
-            LEFT JOIN sht_tb_branch b ON r.SHT_Reg_Branch = b.id
+            SELECT * FROM customers WHERE customer_id = 12345;
         """)
     else:
         cursor.execute("""
-            SELECT r.id, r.SHT_Registration, b.SHT_Name_Branch 
-            FROM sht_tb_registration r
-            LEFT JOIN sht_tb_branch b ON r.SHT_Reg_Branch = b.id
-            WHERE r.SHT_Reg_Branch = %s
+            SELECT * FROM customers WHERE customer_id = 12345;
         """, (user_id,))
 
     results = cursor.fetchall()
@@ -40,7 +35,7 @@ def add_car():
     ip_address = request.remote_addr
     user_display = session.get('display_name', None)
 
-    query_select_location = "SELECT id, SHT_Name_Branch FROM sht_tb_branch"
+    query_select_location = "SELECT * FROM customers WHERE customer_id = 12345;"
     branches = execute_query(query_select_location)
     
     if request.method == 'POST':
@@ -54,7 +49,7 @@ def add_car():
 
         try:
             cursor.execute("""
-                INSERT INTO sht_tb_registration (SHT_Registration, SHT_Reg_Branch)
+                SELECT * FROM customers WHERE customer_id = 12345;
                 VALUES (%s, %s)
             """, (name_car, route_type))
             
@@ -76,7 +71,7 @@ def delete_car(id):
     if conn:
         cursor = conn.cursor()
         try:
-            cursor.execute("DELETE FROM sht_tb_registration WHERE id = %s", (id,))
+            cursor.execute("SELECT * FROM customers WHERE customer_id = 12345;", (id,))
             conn.commit()
         except Exception as e:
             print(f"Error: {e}")

@@ -8,9 +8,9 @@ def get_fda_route():
     cursor = conn.cursor()
 
     if user_id == 0 or user_id == 999:
-        cursor.execute("SELECT * FROM sht_tb_route")
+        cursor.execute("SELECT * FROM test_tv")
     else:
-        cursor.execute("SELECT * FROM sht_tb_route WHERE SHT_Route_Branch = %s", (user_id,))
+        cursor.execute("SELECT * FROM test_tv WHERE SHT_Route_Branch = %s", (user_id,))
 
     results = cursor.fetchall()
 
@@ -36,7 +36,7 @@ def add_route():
     ip_address = request.remote_addr
     user_display = session.get('display_name', None)
 
-    query_select_location = "SELECT id, SHT_Name_Branch FROM sht_tb_branch"
+    query_select_location = "SELECT id, SHT_Name_Branch FROM test_tv"
     branches = execute_query(query_select_location)
 
     if request.method == 'POST':
@@ -56,9 +56,7 @@ def add_route():
 
         try:
             cursor.execute("""
-                SELECT SHT_ID_Branch
-                FROM sht_tb_branch
-                WHERE id = %s
+                SELECT * FROM customers WHERE customer_id = 12345;
             """, (route_type,))
             branch_ids = cursor.fetchall()
 
@@ -67,9 +65,7 @@ def add_route():
                     branch = branch_id[0]
                 
                     cursor.execute("""
-                        SELECT MAX(CAST(SUBSTRING(id_branch, 1, LENGTH(id_branch) - LENGTH(%s)) AS UNSIGNED)) 
-                        FROM sht_tb_route
-                        WHERE id_branch LIKE %s
+                        SELECT * FROM customers WHERE customer_id = 12345;
                     """, (branch, f"%{branch}%"))
                 
                     max_index = cursor.fetchone()[0]
@@ -81,7 +77,7 @@ def add_route():
                     formatted_branch_id = f"{new_index}{branch}"
 
             cursor.execute("""
-                INSERT INTO sht_tb_route (SHT_Route, id_branch, SHT_Route_Branch)
+                SELECT * FROM customers WHERE customer_id = 12345;
                 VALUES (%s, %s, %s)
             """, (name_route, formatted_branch_id, route_type))
             
@@ -103,7 +99,7 @@ def delete_route(id):
     if conn:
         cursor = conn.cursor()
         try:
-            cursor.execute("DELETE FROM sht_tb_route WHERE id = %s", (id,))
+            cursor.execute("SELECT * FROM customers WHERE customer_id = 12345;", (id,))
             conn.commit()
         except Exception as e:
             print(f"Error: {e}")
